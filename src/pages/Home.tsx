@@ -1,8 +1,10 @@
 import { css } from "@emotion/css";
-import { useSetTheme } from "../components/styles/hooks/useSetTheme";
-import { useStyles } from "../components/styles/hooks/useStyles";
-import { Theme } from "../components/styles/types/Theme";
-import { ThemeName } from "../components/styles/types/ThemeName";
+import { useTranslation } from "react-i18next";
+import { LanguageSelect } from "../components/LanguageSelect";
+import { StylesSelect } from "../components/StyleSelect";
+import { useSetTheme } from "../styles/hooks/useSetTheme";
+import { useStyles } from "../styles/hooks/useStyles";
+import { Theme } from "../styles/types/Theme";
 
 const homeStyles = (theme: Theme) => ({
   root: css`
@@ -17,15 +19,13 @@ export const Home = () => {
   const styles = useStyles(homeStyles);
   const { setTheme } = useSetTheme();
 
+  const { t, i18n } = useTranslation();
+
   return (
     <div className={styles.root}>
-      <h1 className={styles.heading}>This is home page</h1>
-      <select
-        onChange={(e) => setTheme((e.target.value as ThemeName) || "light")}
-      >
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-      </select>
+      <h1 className={styles.heading}>{t("home.heading")}</h1>
+      <StylesSelect onChange={setTheme} />
+      <LanguageSelect onChange={i18n.changeLanguage} />
     </div>
   );
 };
